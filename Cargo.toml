@@ -1,0 +1,6 @@
+[package]
+name = "database-exporter"
+version = "0.1.0"
+authors = ["Amila Welihinda <amilajack@gmail.com>"]
+
+[dependencies]
