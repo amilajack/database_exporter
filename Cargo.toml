@@ -4,3 +4,6 @@ version = "0.1.0"
 authors = ["Amila Welihinda <amilajack@gmail.com>"]
 
 [dependencies]
+rusqlite="*"
+serde_json = "1.0"
+csv = "1.0.0-beta.5"
