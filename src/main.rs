@@ -1,6 +1,8 @@
-extern crate rusqlite;
+#![feature(test)]
+extern crate test;
 #[macro_use]
 extern crate fake;
+extern crate rusqlite;
 
 mod generate_records;
 
