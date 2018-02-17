@@ -1,0 +1,11 @@
+{
+  "name": "node-database-exporter-bench-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "benchmark": "^2.1.4",
+    "better-sqlite3": "^4.1.0",
+    "microtime": "^2.1.7"
+  }
+}

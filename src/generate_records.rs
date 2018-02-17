@@ -1,6 +1,8 @@
 use rusqlite::{Connection, Error};
+use serde_json;
+use rayon::prelude::*;
 
-fn get_column_names(conn: &Connection) -> Vec<String> {
+pub fn get_column_names(conn: &Connection) -> Vec<String> {
     let mut columns_query_stmt = conn.prepare("PRAGMA table_info(users)").unwrap();
     let result: Result<Vec<String>, Error> =
         columns_query_stmt.query_map(&[], |_row| _row.get(1))
@@ -9,7 +11,7 @@ fn get_column_names(conn: &Connection) -> Vec<String> {
     result.unwrap()
 }
 
-pub fn convert_records(conn: &Connection) {
+pub fn convert_records(conn: &Connection) -> String {
     let mut stmt = conn.prepare("SELECT * FROM users").unwrap();
     // let column_names = get_column_names(&conn);
 
@@ -27,24 +29,23 @@ pub fn convert_records(conn: &Connection) {
 
     match result {
         Ok(res) => {
-            // println!("{:?} exists", res.len());
             let mut new_vec: Vec<String> = Vec::new();
             for i in 0..res.len() {
                 for j in 0..res.get(i).unwrap().len() {
                     new_vec.push(res.get(i).unwrap().get(j).unwrap().to_string());
                 }
             }
-            // println!("{:?} exists", new_vec);
+            return serde_json::to_string(&new_vec).unwrap()
         }
         Err(err) => {
-            println!("{}", err);
+            panic!("{}", err);
         },
     }
 }
 
 // Could use std::any::Any; to implement 'dynamic types'
-pub fn generate_records(conn: &Connection) {
-    for _ in 0..100_000 {
+pub fn generate_records(conn: &Connection, record_count: i32) {
+    for _ in 0..record_count {
         conn.execute("INSERT INTO users (name, data)
             VALUES (?1, ?2)",
             &[&fake!(Name.name), &"bar"]).unwrap();
@@ -73,15 +74,18 @@ pub fn create_table(conn: &Connection) {
 #[cfg(test)]
 mod tests {
     use std::time::Instant;
-    use test::{Bencher, black_box};
+    use test::Bencher;
     use super::*;
+
+    #[test]
+    fn test_column_names() {
+        let conn = create_conn();
+        get_column_names(&conn);
+    }
 
     #[bench]
     fn bench_generate_records(bench: &mut Bencher) {
         let conn = create_conn();
-
-        bench.iter(|| {
-            convert_records(&conn)
-        });
+        bench.iter(|| convert_records(&conn));
     }
 }
