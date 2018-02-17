@@ -1,6 +1,5 @@
 use rusqlite::{Connection, Error};
 use serde_json;
-use rayon::prelude::*;
 
 pub fn get_column_names(conn: &Connection) -> Vec<String> {
     let mut columns_query_stmt = conn.prepare("PRAGMA table_info(users)").unwrap();
