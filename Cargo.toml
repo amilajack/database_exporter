@@ -10,16 +10,15 @@ homepage = "https://github.com/amilajack/database_exporter"
 description = """
 Export any database to any format
 """
-keywords = ["random", "rng"]
-categories = ["algorithms"]
+keywords = ["database", "export", "json", "csv"]
+categories = ["databases"]
 
 [dependencies]
-rusqlite = "*"
+rusqlite = "0.13.0"
 serde_json = "1.0"
 csv = "1.0.0-beta.5"
-rayon = "*"
-fake = "*"
-regex = "*"
+rayon = "1.0.0"
+fake = "1.2.1"
 
 [badges]
 travis-ci = { repository = "amilajack/database_exporter" }
