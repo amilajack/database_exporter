@@ -5,6 +5,4 @@ extern crate serde_json;
 extern crate fake;
 extern crate rusqlite;
 
-mod generate_records;
-
-pub use generate_records::convert_records;
+pub mod generate_records;
