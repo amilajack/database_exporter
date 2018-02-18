@@ -4,7 +4,6 @@ extern crate serde_json;
 #[macro_use]
 extern crate fake;
 extern crate rusqlite;
-extern crate rayon;
 
 mod generate_records;
 
