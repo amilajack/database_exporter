@@ -2,6 +2,16 @@
 name = "database_exporter"
 version = "0.1.0"
 authors = ["Amila Welihinda <amilajack@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/amilajack/database_exporter"
+documentation = "https://docs.rs/database_exporter"
+homepage = "https://github.com/amilajack/database_exporter"
+description = """
+Export any database to any format
+"""
+keywords = ["random", "rng"]
+categories = ["algorithms"]
 
 [dependencies]
 rusqlite = "*"
