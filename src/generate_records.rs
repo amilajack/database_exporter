@@ -72,7 +72,6 @@ pub fn create_table(conn: &Connection) {
 
 #[cfg(test)]
 mod tests {
-    use std::time::Instant;
     use test::Bencher;
     use super::*;
 

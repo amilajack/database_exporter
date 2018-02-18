@@ -1,5 +1,5 @@
 [package]
-name = "database-exporter"
+name = "database_exporter"
 version = "0.1.0"
 authors = ["Amila Welihinda <amilajack@gmail.com>"]
 
