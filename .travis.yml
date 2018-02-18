@@ -5,9 +5,7 @@ cache: cargo
 # Run builds for all the trains (and more).
 # Remember to update the numbers in travis.sh too.
 rust:
-  - stable
   - nightly
-  - beta
 
 matrix:
   include:

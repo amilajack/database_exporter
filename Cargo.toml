@@ -13,3 +13,4 @@ regex = "*"
 
 [badges]
 travis-ci = { repository = "amilajack/database_exporter" }
+appveyor = { repository = "amilajack/database_exporter" }
