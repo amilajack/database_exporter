@@ -11,3 +11,7 @@ matrix:
   include:
     - rust: nightly
       env: CLIPPY=true
+
+test:
+  - cargo test --benches
+  - cargo test
