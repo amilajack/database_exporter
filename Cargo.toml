@@ -13,6 +13,9 @@ Export any database to any format
 keywords = ["database", "export", "json", "csv"]
 categories = ["databases"]
 
+[lib]
+name = "database_exporter"
+
 [dependencies]
 rusqlite = "0.13.0"
 serde_json = "1.0"
