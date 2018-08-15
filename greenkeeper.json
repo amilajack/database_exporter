@@ -1,0 +1,9 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "bench/node/package.json"
+      ]
+    }
+  }
+}
