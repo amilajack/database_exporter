@@ -1,6 +1,6 @@
 #![feature(test)]
-extern crate test;
 extern crate serde_json;
+extern crate test;
 #[macro_use]
 extern crate fake;
 extern crate rusqlite;
