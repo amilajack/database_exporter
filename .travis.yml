@@ -1,17 +1,10 @@
-sudo: false
 language: rust
+
 cache: cargo
 
-# Run builds for all the trains (and more).
-# Remember to update the numbers in travis.sh too.
 rust:
   - nightly
 
-matrix:
-  include:
-    - rust: nightly
-      env: CLIPPY=true
-
 test:
-  - cargo test --benches
+  - cargo bench
   - cargo test

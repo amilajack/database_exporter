@@ -52,22 +52,17 @@ pub fn generate_records(conn: &Connection, record_count: i32) {
 }
 
 pub fn create_conn() -> Connection {
-    Connection::open("./db.sqlite").unwrap()
+    Connection::open_in_memory().unwrap()
 }
 
 pub fn create_table(conn: &Connection) {
-    let foo = conn.execute("
+    let _ = conn.execute("
         CREATE TABLE users (
             id              INTEGER PRIMARY KEY,
             name            TEXT NOT NULL,
             data            BLOB
         )", &[]
     );
-
-    match foo {
-        Ok(_) => {}
-        Err(_) => {}
-    }
 }
 
 #[cfg(test)]
@@ -84,6 +79,7 @@ mod tests {
     #[bench]
     fn bench_generate_records(bench: &mut Bencher) {
         let conn = create_conn();
+        create_table(&conn);
         bench.iter(|| convert_records(&conn));
     }
 }
