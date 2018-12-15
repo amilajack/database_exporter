@@ -1,3 +1,4 @@
+use rusqlite::types::Value;
 use rusqlite::{Connection, Error};
 use serde_json;
 
@@ -14,30 +15,24 @@ pub fn convert_records(conn: &Connection) -> String {
     let mut stmt = conn.prepare("SELECT * FROM users").unwrap();
     let result: Result<Vec<Vec<String>>, Error> = stmt
         .query_map(&[], |_row| {
-            let mut vec: Vec<String> = Vec::new();
-            let count = _row.column_count();
-            for i in 1..count {
-                vec.push(_row.get(i));
+            let mut vec = Vec::new();
+            let column_index = _row.column_count();
+            for i in 1..column_index {
+                let val: String = match _row.get(i) {
+                    Value::Null => "NULL".to_string(),
+                    Value::Integer(e) => e.to_string(),
+                    Value::Real(e) => e.to_string(),
+                    Value::Text(e) => e.to_string(),
+                    Value::Blob(_e) => "BLOB".to_string(),
+                };
+                vec.push(val);
             }
             vec
         })
         .unwrap()
         .collect();
 
-    match result {
-        Ok(res) => {
-            let mut new_vec: Vec<String> = Vec::new();
-            for i in 0..res.len() {
-                for j in 0..res.get(i).unwrap().len() {
-                    new_vec.push(res.get(i).unwrap().get(j).unwrap().to_string());
-                }
-            }
-            return serde_json::to_string(&new_vec).unwrap();
-        }
-        Err(err) => {
-            panic!("{}", err);
-        }
-    }
+    serde_json::to_string(&result.unwrap()).unwrap()
 }
 
 // Could use std::any::Any; to implement 'dynamic types'
@@ -46,7 +41,7 @@ pub fn generate_records(conn: &Connection, record_count: i32) {
         conn.execute(
             "INSERT INTO users (name, data)
             VALUES (?1, ?2)",
-            &[&fake!(Name.name), &"bar"],
+            &[&fake!(Name.name), &12],
         )
         .unwrap();
     }
