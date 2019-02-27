@@ -2,7 +2,37 @@ use rusqlite::types::Value;
 use rusqlite::{Connection, Error};
 use serde_json;
 
-pub fn export(table: &str, conn: &Connection) -> String {
+/// ## Usage
+/// ```rust
+/// extern crate database_exporter;
+/// extern crate rusqlite;
+///
+/// use rusqlite::Connection;
+///
+/// // Create a connection with rusqlite
+/// let conn = Connection::open_in_memory().unwrap();
+///
+/// // Create a table
+/// conn.execute(
+///     "
+///     CREATE TABLE users (
+///         id              INTEGER PRIMARY KEY,
+///         name            TEXT NOT NULL,
+///         data            BLOB
+///     )",
+///     &[],
+/// ).unwrap();
+///
+/// // Export the database. Currently this just returns a  string
+/// // Eventually we will write it
+/// database_exporter::export::export("users", Some(&conn));
+/// ```
+pub fn export(table: &str, conn: Option<&Connection>) -> String {
+    let a = &create_conn();
+    let conn: &Connection = match conn {
+        Some(Connection) => Connection,
+        None => a
+    };
     let stmt = format!("SELECT * FROM {}", table);
     let mut stmt = conn.prepare(stmt.as_str()).unwrap();
     let result: Result<Vec<Vec<String>>, Error> = stmt
@@ -27,7 +57,7 @@ pub fn export(table: &str, conn: &Connection) -> String {
     serde_json::to_string(&result.unwrap()).unwrap()
 }
 
-pub fn create_conn() -> Connection {
+fn create_conn() -> Connection {
     Connection::open_in_memory().unwrap()
 }
 
@@ -68,6 +98,6 @@ mod tests {
     fn bench_export(bench: &mut test::Bencher) {
         let conn = create_conn();
         create_table(&conn);
-        bench.iter(|| export("users", &conn));
+        bench.iter(|| export("users", Some(&conn)));
     }
 }

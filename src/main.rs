@@ -5,13 +5,18 @@ extern crate test as cargo_test;
 extern crate fake;
 extern crate rusqlite;
 
+use rusqlite::Connection;
 mod export;
 mod test;
 
+fn create_conn() -> Connection {
+    Connection::open_in_memory().unwrap()
+}
+
 fn main() {
-    let conn = export::create_conn();
+    let conn = create_conn();
     test::create_table(&conn);
     test::seed_db(&conn, 100_000);
-    let result = export::export("users", &conn);
+    let result = export::export("users", Some(&conn));
     println!("{}", result);
 }

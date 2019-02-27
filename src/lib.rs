@@ -4,3 +4,5 @@ extern crate test;
 extern crate rusqlite;
 
 pub mod export;
+
+pub use export::export;
