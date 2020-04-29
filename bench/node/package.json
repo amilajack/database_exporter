@@ -5,7 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "benchmark": "^2.1.4",
-    "better-sqlite3": "^5.0.0",
+    "better-sqlite3": "^7.0.0",
     "microtime": "^3.0.0"
   }
 }
